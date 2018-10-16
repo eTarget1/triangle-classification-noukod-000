@@ -1,43 +1,34 @@
-
 class Triangle
-  # write code here
-  def initialize(side_1, side_2, side_3)
-    @triangle_sides = []
-    @triangle_sides << side_1
-    @triangle_sides << side_2
-    @triangle_sides << side_3
+  attr_accessor :s1, :s2, :s3
 
+  def initialize(s1, s2, s3)
+    @s1 = s1
+    @s2 = s2
+    @s3 = s3
   end
-
-    def valid?
-      sum_one_two = @triangle_sides[0] + @triangle_sides[1]
-      sum_one_three = @triangle_sides[0] + @triangle_sides[2]
-      sum_two_three = @triangle_sides[1] + @triangle_sides[2]
-
-      if (@triangle_sides.none? {|side| side <= 0}) &&
-        (sum_one_two > @triangle_sides[2] && sum_one_three > @triangle_sides[1] && sum_two_three > @triangle_sides[0])
-        return true
-      else
-        return false
-      end
-    end
 
   def kind
-    if valid?
-      if @triangle_sides.uniq.length == 1
+    if self.valid? == false
+      raise TriangleError
+    else
+      if ((self.s1 == self.s2) && (self.s2 == self.s3))
         return :equilateral
-      elsif @triangle_sides.uniq.length == 2
+      elsif ((self.s1 == self.s2) || (self.s2 == self.s3) || (self.s1 == self.s3))
         return :isosceles
-      else
+      elsif ((self.s1 != self.s2) && (self.s2 != self.s3) && (self.s1 != self.s3))
         return :scalene
       end
-    else
-      raise TriangleError
     end
   end
-end
 
-class TriangleError < StandardError
-    # triangle error code
+  def valid?
+    if ((self.s1 + self.s2 > self.s3) && (self.s2 + self.s3 > self.s1) && (self.s1 + self.s3 > self.s2) && (self.s1 > 0) && (self.s2 > 0) && (self.s3 > 0))
+      return true
+    else
+      return false
+    end
+  end
+
+  class TriangleError < StandardError
   end
 end
