@@ -24,5 +24,8 @@ class Triangle
   end
 end
 
+class TriangleError < StandardError
+    # triangle error code
+  end
 
 end
